@@ -15,11 +15,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activities.ReportDisasterActivity" />
         <!--
@@ -36,7 +31,14 @@
 
         <activity
             android:name=".activities.DisasterMapsActivity"
-            android:label="@string/title_activity_disaster_maps"></activity>
+            android:label="@string/title_activity_disaster_maps" />
+        <activity android:name=".activities.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

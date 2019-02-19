@@ -25,6 +25,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.0.1'
     implementation 'com.andkulikov:transitionseverywhere:1.8.1'
+    implementation 'com.github.hajiyevelnur92:intentanimation:1.0'
 
     implementation 'com.google.firebase:firebase-core:16.0.6'
     implementation 'com.google.firebase:firebase-auth:16.1.0'

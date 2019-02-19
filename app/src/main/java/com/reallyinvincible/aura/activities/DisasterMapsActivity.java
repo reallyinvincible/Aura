@@ -55,7 +55,7 @@ public class DisasterMapsActivity extends FragmentActivity implements OnMapReady
                 mMap.addMarker(new MarkerOptions()
                 .position(latLng)
                 .icon(bitmapDescriptor).title(disaster.getAlertType()));
-                moveCamera(latLng, 40f);
+                moveCamera(latLng, 15f);
             }
 
             @Override

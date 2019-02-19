@@ -37,6 +37,7 @@ public class ReportDisasterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_report_disaster);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         Dexter.withActivity(ReportDisasterActivity.this)
                 .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -69,7 +70,6 @@ public class ReportDisasterActivity extends AppCompatActivity {
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
-                        Toast.makeText(ReportDisasterActivity.this, "Error Fetching Location. \nPlease Try Again!", Toast.LENGTH_SHORT).show();
                         if (location != null) {
                             // Logic to handle location object
                             String arr[] = UtilConstants.arr;
