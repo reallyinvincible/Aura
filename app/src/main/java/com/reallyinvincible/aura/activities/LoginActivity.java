@@ -8,21 +8,16 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.mukesh.OnOtpCompletionListener;
 import com.mukesh.OtpView;
 import com.reallyinvincible.aura.R;
 import com.transitionseverywhere.Slide;
@@ -30,7 +25,6 @@ import com.transitionseverywhere.TransitionManager;
 
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -70,18 +64,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.btn_otp).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((OtpView)findViewById(R.id.cv_otp)).setOtpCompletionListener(new OnOtpCompletionListener() {
-                    @Override
-                    public void onOtpCompleted(String s) {
-                        otpCode = s;
-                    }
-                });
-                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, otpCode);
-                signInWithPhoneAuthCredential(credential);
-            }
+        findViewById(R.id.btn_otp).setOnClickListener(view -> {
+            ((OtpView) findViewById(R.id.cv_otp)).setOtpCompletionListener(s -> otpCode = s);
+            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, otpCode);
+            signInWithPhoneAuthCredential(credential);
         });
 
         help_button.setOnClickListener(new View.OnClickListener() {
@@ -166,28 +152,25 @@ public class LoginActivity extends AppCompatActivity {
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithCredential:success");
 
-                            FirebaseUser user = task.getResult().getUser();
+                        FirebaseUser user = task.getResult().getUser();
 
-                            SharedPreferences sharedPreferences = getSharedPreferences("Information", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("UserPhoneNumber", user.getPhoneNumber());
-                            editor.apply();
-                            launchHome();
+                        SharedPreferences sharedPreferences = getSharedPreferences("Information", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("UserPhoneNumber", user.getPhoneNumber());
+                        editor.apply();
+                        launchHome();
 
-                            // ...
-                        } else {
-                            // Sign in failed, display a message and update the UI
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                // The verification code entered was invalid
-                            }
+                        // ...
+                    } else {
+                        // Sign in failed, display a message and update the UI
+                        Log.w(TAG, "signInWithCredential:failure", task.getException());
+                        if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                            // The verification code entered was invalid
                         }
                     }
                 });
