@@ -8,7 +8,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -194,7 +193,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void launchHome(){
-        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+        Intent intent = new Intent(LoginActivity.this, DisasterMapsActivity.class);
         startActivity(intent);
         finishAfterTransition();
     }
