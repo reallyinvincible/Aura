@@ -1,20 +1,18 @@
 package com.reallyinvincible.aura.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
-
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -23,11 +21,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.reallyinvincible.aura.AddDisasterBottomFragment;
 import com.reallyinvincible.aura.DialogueControlInterface;
-import com.reallyinvincible.aura.models.Information;
 import com.reallyinvincible.aura.R;
+import com.reallyinvincible.aura.models.Information;
 import com.reallyinvincible.aura.utils.UtilConstants;
 
 import java.util.Arrays;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 public class DisasterMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -37,6 +39,7 @@ public class DisasterMapsActivity extends FragmentActivity implements OnMapReady
     private ChildEventListener mChildEventListener;
     AddDisasterBottomFragment addDisasterBottomFragment;
     private static DialogueControlInterface dialogueControlInterface;
+    private static final String TAG = "DisasterMapsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,8 @@ public class DisasterMapsActivity extends FragmentActivity implements OnMapReady
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference().child("DisasterInformation");
 
@@ -124,6 +129,19 @@ public class DisasterMapsActivity extends FragmentActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            boolean success = googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.style));
+
+            if (!success) {
+                Log.e(TAG, "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e(TAG, "Can't find style. Error: ", e);
+        }
         mDatabaseReference.addChildEventListener(mChildEventListener);
     }
 
