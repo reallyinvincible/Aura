@@ -1,10 +1,14 @@
 package com.reallyinvincible.aura.activities;
 
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.RadialGradient;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.airbnb.lottie.L;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -14,18 +18,24 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.TileOverlay;
+import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.maps.android.heatmaps.Gradient;
+import com.google.maps.android.heatmaps.HeatmapTileProvider;
 import com.reallyinvincible.aura.AddDisasterBottomFragment;
 import com.reallyinvincible.aura.DialogueControlInterface;
 import com.reallyinvincible.aura.R;
 import com.reallyinvincible.aura.models.Information;
 import com.reallyinvincible.aura.utils.UtilConstants;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,6 +50,8 @@ public class DisasterMapsActivity extends FragmentActivity implements OnMapReady
     AddDisasterBottomFragment addDisasterBottomFragment;
     private static DialogueControlInterface dialogueControlInterface;
     private static final String TAG = "DisasterMapsActivity";
+    HeatmapTileProvider mProvider;
+    List<LatLng> heatMapData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +61,7 @@ public class DisasterMapsActivity extends FragmentActivity implements OnMapReady
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        heatMapData = new ArrayList<>();
 
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference().child("DisasterInformation");
@@ -72,11 +84,34 @@ public class DisasterMapsActivity extends FragmentActivity implements OnMapReady
                     BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory
                             .defaultMarker(color[6]);
                     LatLng latLng = new LatLng(disaster.getLatitude(), disaster.getLongitude());
+                    heatMapData.add(latLng);
                     mMap.addMarker(new MarkerOptions()
                             .position(latLng)
                             .icon(bitmapDescriptor).title(disaster.getAlertType()));
                     moveCamera(latLng, 15f);
                 }
+
+                int[] colors = {
+                        Color.GREEN,
+                        Color.YELLOW,
+                        Color.RED
+                };
+
+                float[] startPoints = {
+                        0.1f, 1f, 3f
+                };
+
+                Gradient gradient = new Gradient(colors, startPoints);
+
+                mProvider = new HeatmapTileProvider.Builder()
+                        .data(heatMapData)
+                        .radius(40)
+                        .gradient(gradient)
+                        .opacity(0.7)
+                        .build();
+                // Add a tile overlay to the map, using the heat map tile provider.
+                TileOverlay mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+
             }
 
             @Override
