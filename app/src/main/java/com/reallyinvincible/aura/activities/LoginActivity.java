@@ -183,7 +183,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void launchHome(){
-        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+        Intent intent = new Intent(LoginActivity.this, DisasterMapsActivity.class);
         startActivity(intent);
         finishAfterTransition();
     }

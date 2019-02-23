@@ -63,6 +63,7 @@ public class ReportDisasterActivity extends AppCompatActivity {
         getLocation();
     }
 
+
     @SuppressLint("MissingPermission")
     private void getLocation() {
         Toast.makeText(ReportDisasterActivity.this, "Fetching data", Toast.LENGTH_SHORT).show();
