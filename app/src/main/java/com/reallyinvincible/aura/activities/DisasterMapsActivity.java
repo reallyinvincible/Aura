@@ -98,7 +98,7 @@ public class DisasterMapsActivity extends FragmentActivity implements OnMapReady
                 };
 
                 float[] startPoints = {
-                        0.1f, 1f, 3f
+                        0.1f, 0.8f, 1.5f
                 };
 
                 Gradient gradient = new Gradient(colors, startPoints);
@@ -111,7 +111,6 @@ public class DisasterMapsActivity extends FragmentActivity implements OnMapReady
                         .build();
                 // Add a tile overlay to the map, using the heat map tile provider.
                 TileOverlay mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
-
             }
 
             @Override
