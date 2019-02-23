@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "438059677456-c4s0g476j9j8kcta9mdf03q7e5s4etr3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reallyinvincible.aura",
+            "certificate_hash": "01f7f2a5e921f0c797bc6cdd17b8ea8dd91a135a"
+          }
+        },
+        {
           "client_id": "438059677456-ren143o6t4r1m18sn8m9rhiuol47f7m8.apps.googleusercontent.com",
           "client_type": 3
         }

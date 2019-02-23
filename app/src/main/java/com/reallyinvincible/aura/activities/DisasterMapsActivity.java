@@ -55,13 +55,23 @@ public class DisasterMapsActivity extends FragmentActivity implements OnMapReady
                 Information disaster = dataSnapshot.getValue(Information.class);
                 String arr[] = UtilConstants.arr;
                 float color[] = UtilConstants.color;
-                BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory
-                        .defaultMarker(color[Arrays.asList(arr).indexOf(disaster.getAlertType())]);
-                LatLng latLng = new LatLng(disaster.getLatitude(), disaster.getLongitude());
-                mMap.addMarker(new MarkerOptions()
-                .position(latLng)
-                .icon(bitmapDescriptor).title(disaster.getAlertType()));
-                moveCamera(latLng, 15f);
+                if (Arrays.asList(arr).indexOf(disaster.getAlertType()) > 0) {
+                    BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory
+                            .defaultMarker(color[Arrays.asList(arr).indexOf(disaster.getAlertType())]);
+                    LatLng latLng = new LatLng(disaster.getLatitude(), disaster.getLongitude());
+                    mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .icon(bitmapDescriptor).title(disaster.getAlertType()));
+                    moveCamera(latLng, 15f);
+                } else {
+                    BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory
+                            .defaultMarker(color[6]);
+                    LatLng latLng = new LatLng(disaster.getLatitude(), disaster.getLongitude());
+                    mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .icon(bitmapDescriptor).title(disaster.getAlertType()));
+                    moveCamera(latLng, 15f);
+                }
             }
 
             @Override

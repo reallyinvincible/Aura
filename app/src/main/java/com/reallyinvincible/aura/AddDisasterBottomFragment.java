@@ -102,7 +102,7 @@ public class AddDisasterBottomFragment extends BottomSheetDialogFragment {
                     disasterType = disasterTypeEditText.getText().toString();
                 }
                 intensityLevel = Integer.parseInt(disasterIntensityEditText.getText().toString());
-                HomeActivity.getDialogueControlInterface().dismiss();
+                DisasterMapsActivity.getDialogueControlInterface().dismiss();
                 getLocation();
             }
         });

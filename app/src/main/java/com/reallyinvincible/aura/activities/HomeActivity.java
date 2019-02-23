@@ -25,35 +25,19 @@ public class HomeActivity extends AppCompatActivity {
         String phoneNumber = sharedPreferences.getString("UserPhoneNumber", "0");
         addDisasterBottomFragment = new AddDisasterBottomFragment();
         ((TextView)findViewById(R.id.tv_user_name)).setText(phoneNumber);
-        findViewById(R.id.btn_sample).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent disasterReportIntent = new Intent(HomeActivity.this, ReportDisasterActivity.class);
-                startActivity(disasterReportIntent);
-            }
+        findViewById(R.id.btn_sample).setOnClickListener(view -> {
+            Intent disasterReportIntent = new Intent(HomeActivity.this, ReportDisasterActivity.class);
+            startActivity(disasterReportIntent);
         });
 
-        findViewById(R.id.btn_map).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent mapDisasterIntent = new Intent(HomeActivity.this, DisasterMapsActivity.class);
-                startActivity(mapDisasterIntent);
-            }
+        findViewById(R.id.btn_map).setOnClickListener(view -> {
+            Intent mapDisasterIntent = new Intent(HomeActivity.this, DisasterMapsActivity.class);
+            startActivity(mapDisasterIntent);
         });
 
-        dialogueControlInterface = new DialogueControlInterface() {
-            @Override
-            public void dismiss() {
-                dismissDialogue();
-            }
-        };
+        dialogueControlInterface = () -> dismissDialogue();
 
-        findViewById(R.id.btn_add_data).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDialogue();
-            }
-        });
+        findViewById(R.id.btn_add_data).setOnClickListener(view -> openDialogue());
 
     }
 
