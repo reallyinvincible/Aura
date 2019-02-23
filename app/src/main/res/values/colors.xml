@@ -3,6 +3,9 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#25272A</color>
     <color name="colorAccent">#00B0FF</color>
+<<<<<<< HEAD
+=======
 
     <color name="textColor">@android:color/white</color>
+>>>>>>> master
 </resources>
