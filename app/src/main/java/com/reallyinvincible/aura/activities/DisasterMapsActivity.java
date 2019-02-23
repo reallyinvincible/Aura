@@ -2,13 +2,10 @@ package com.reallyinvincible.aura.activities;
 
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.RadialGradient;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.airbnb.lottie.L;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
