@@ -48,7 +48,6 @@ public class DisasterMapsActivity extends FragmentActivity implements OnMapReady
         mapFragment.getMapAsync(this);
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference().child("DisasterInformation");
-        addDisasterBottomFragment = new AddDisasterBottomFragment();
 
         mChildEventListener = new ChildEventListener() {
             @Override
@@ -123,6 +122,7 @@ public class DisasterMapsActivity extends FragmentActivity implements OnMapReady
     }
 
     void openDialogue(){
+        addDisasterBottomFragment = new AddDisasterBottomFragment();
         addDisasterBottomFragment.show(getSupportFragmentManager(), "AddDisaster");
     }
 

@@ -1,5 +1,6 @@
 package com.reallyinvincible.aura.activities;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,6 +20,12 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 import com.mukesh.OtpView;
 import com.reallyinvincible.aura.R;
 import com.transitionseverywhere.Slide;
@@ -95,6 +102,24 @@ public class LoginActivity extends AppCompatActivity {
             launchHome();
         }
 
+        Dexter.withActivity(LoginActivity.this)
+                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+
+                    }
+                }).check();
     }
 
     void verifyPhoneNnumberWithOtp(String phoneNumber){
