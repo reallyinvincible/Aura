@@ -48,6 +48,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.25" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lav_ripple"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_help"
+        app:layout_constraintEnd_toEndOf="@+id/btn_help"
+        app:layout_constraintStart_toStartOf="@+id/btn_help"
+        app:layout_constraintTop_toTopOf="@+id/btn_help"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="ripple.json"
+        app:lottie_loop="true"
+        app:lottie_speed="0.8" />
+
     <Button
         android:id="@+id/btn_help"
         android:layout_width="150dp"

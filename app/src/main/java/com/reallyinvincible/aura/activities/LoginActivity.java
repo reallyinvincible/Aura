@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
@@ -34,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     String mVerificationId, phoneNumber, otpCode;
     PhoneAuthProvider.ForceResendingToken mResendToken;
+    LottieAnimationView ripple;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
         final ConstraintLayout constraintLayout1 = findViewById(R.id.VG2);
         final ConstraintLayout constraintLayout2 = findViewById(R.id.VG3);
         final Button help_button = findViewById(R.id.btn_help);
+
+        ripple = findViewById(R.id.lav_ripple);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -82,6 +86,8 @@ public class LoginActivity extends AppCompatActivity {
                 TransitionManager.beginDelayedTransition(transitionsContainer, new Slide(Gravity.END));
                 constraintLayout1.setVisibility(visible ? View.VISIBLE : View.GONE);
                 help_button.setVisibility(visible ? View.GONE : View.VISIBLE);
+                ripple.setVisibility(visible ? View.GONE : View.VISIBLE);
+                ripple.pauseAnimation();
             }
         });
 
