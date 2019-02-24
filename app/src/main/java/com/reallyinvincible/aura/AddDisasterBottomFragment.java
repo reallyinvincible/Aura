@@ -26,21 +26,24 @@ import com.reallyinvincible.aura.activities.MapActivity;
 import com.reallyinvincible.aura.models.Information;
 import com.reallyinvincible.aura.utils.UtilConstants;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class AddDisasterBottomFragment extends BottomSheetDialogFragment {
 
-    SingleSelectToggleGroup singleSelectToggleGroup;
+    private SingleSelectToggleGroup singleSelectToggleGroup;
     private FusedLocationProviderClient mFusedLocationClient;
     private String phoneNumber, disasterType;
-    int intensityLevel;
-    FirebaseDatabase mDatabase;
-    DatabaseReference mDatabaseReference;
-    View editTextLayoutContainer;
-    EditText disasterTypeEditText, disasterIntensityEditText;
-    Boolean isOther;
-    Button submitButton;
+    private int intensityLevel;
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mDatabaseReference;
+    private View editTextLayoutContainer;
+    private EditText disasterTypeEditText, disasterIntensityEditText;
+    private Boolean isOther;
+    private Button submitButton;
 
     @Nullable
     @Override
@@ -60,7 +63,7 @@ public class AddDisasterBottomFragment extends BottomSheetDialogFragment {
         final String disasterArray[] = UtilConstants.arr;
         final int length = disasterArray.length;
 
-        for (int i = 0; i < length; i++){
+        for (int i = 0; i < length; i++) {
             LabelToggle labelToggle = new LabelToggle(singleSelectToggleGroup.getContext());
             labelToggle.setText(disasterArray[i]);
             labelToggle.setId(i);
@@ -81,7 +84,7 @@ public class AddDisasterBottomFragment extends BottomSheetDialogFragment {
         SingleSelectToggleGroup.OnCheckedChangeListener onCheckedChangeListener = new SingleSelectToggleGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SingleSelectToggleGroup group, int checkedId) {
-                if (checkedId == length){
+                if (checkedId == length) {
                     isOther = true;
                     editTextLayoutContainer.setVisibility(View.VISIBLE);
                     disasterTypeEditText.setVisibility(View.VISIBLE);
@@ -90,21 +93,20 @@ public class AddDisasterBottomFragment extends BottomSheetDialogFragment {
                     editTextLayoutContainer.setVisibility(View.GONE);
                     disasterTypeEditText.setVisibility(View.GONE);
                     disasterType = disasterArray[checkedId];
+                }
             }
-        }};
+        };
 
         singleSelectToggleGroup.setOnCheckedChangeListener(onCheckedChangeListener);
 
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isOther){
-                    disasterType = disasterTypeEditText.getText().toString();
-                }
-                intensityLevel = Integer.parseInt(disasterIntensityEditText.getText().toString());
-                DisasterMapsActivity.getDialogueControlInterface().dismiss();
-                getLocation();
+        submitButton.setOnClickListener(view1 -> {
+            if (isOther) {
+                disasterType = disasterTypeEditText.getText().toString();
             }
+            intensityLevel = Integer.parseInt(disasterIntensityEditText.getText().toString());
+            DisasterMapsActivity.getDialogueControlInterface().dismiss();
+            getLocation();
+
         });
 
         return view;
@@ -113,14 +115,11 @@ public class AddDisasterBottomFragment extends BottomSheetDialogFragment {
     @SuppressLint("MissingPermission")
     private void getLocation() {
         mFusedLocationClient.getLastLocation()
-                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            // Logic to handle location object
-                            Information information = new Information(location.getLatitude(), location.getLongitude(), phoneNumber, disasterType, intensityLevel);
-                            mDatabaseReference.push().setValue(information);
-                        }
+                .addOnSuccessListener(getActivity(), location -> {
+                    if (location != null) {
+                        // Logic to handle location object
+                        Information information = new Information(location.getLatitude(), location.getLongitude(), phoneNumber, disasterType, intensityLevel);
+                        mDatabaseReference.push().setValue(information);
                     }
                 });
     }

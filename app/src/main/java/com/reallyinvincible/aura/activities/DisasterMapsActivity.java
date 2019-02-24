@@ -69,17 +69,19 @@ public class DisasterMapsActivity extends FragmentActivity implements OnMapReady
                 Information disaster = dataSnapshot.getValue(Information.class);
                 String arr[] = UtilConstants.arr;
                 float color[] = UtilConstants.color;
+                int length = arr.length;
                 if (Arrays.asList(arr).indexOf(disaster.getAlertType()) > 0) {
                     BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory
                             .defaultMarker(color[Arrays.asList(arr).indexOf(disaster.getAlertType())]);
                     LatLng latLng = new LatLng(disaster.getLatitude(), disaster.getLongitude());
+                    heatMapData.add(latLng);
                     mMap.addMarker(new MarkerOptions()
                             .position(latLng)
                             .icon(bitmapDescriptor).title(disaster.getAlertType()));
                     moveCamera(latLng, 15f);
                 } else {
                     BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory
-                            .defaultMarker(color[6]);
+                            .defaultMarker(color[length]);
                     LatLng latLng = new LatLng(disaster.getLatitude(), disaster.getLongitude());
                     heatMapData.add(latLng);
                     mMap.addMarker(new MarkerOptions()
@@ -117,7 +119,6 @@ public class DisasterMapsActivity extends FragmentActivity implements OnMapReady
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
             }
 
             @Override
@@ -131,19 +132,9 @@ public class DisasterMapsActivity extends FragmentActivity implements OnMapReady
             }
         };
 
-        dialogueControlInterface = new DialogueControlInterface() {
-            @Override
-            public void dismiss() {
-                dismissDialogue();
-            }
-        };
+        dialogueControlInterface = () -> dismissDialogue();
 
-        findViewById(R.id.fab_add_disaster).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDialogue();
-            }
-        });
+        findViewById(R.id.fab_add_disaster).setOnClickListener(view -> openDialogue());
 
     }
 
